@@ -17,10 +17,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MongoConfig {
     
-    @Value("${application.mongo.host}")
+    @Value("${application.mongodb.host}")
     private String host;
     
-    @Value("${application.mongo.port}")
+    @Value("${application.mongodb.port}")
     private int port;
     
     @Bean

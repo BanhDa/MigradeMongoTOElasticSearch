@@ -6,6 +6,7 @@
 package com.mycompany.migrationmongotoes.repo.mongodb;
 
 import com.mongodb.DB;
+import com.mongodb.DBCollection;
 
 /**
  *
@@ -13,11 +14,12 @@ import com.mongodb.DB;
  */
 public abstract class AbstractMongoDB {
     
-    /**
-     *
-     * @param dbName
-     * @return
-     */
-    protected abstract DB getDB(String dbName);
+    protected DBCollection getCollection() {
+        String collectionName = getCollectionName();
+        return getDB().getCollection(collectionName);
+    }
     
+    protected abstract DB getDB();
+    
+    protected abstract String getCollectionName();
 }

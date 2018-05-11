@@ -4,6 +4,6 @@ application:
         port: 27017
     elasticsearch:
         host: localhost
-        port: 
+        port: 9300
         
     

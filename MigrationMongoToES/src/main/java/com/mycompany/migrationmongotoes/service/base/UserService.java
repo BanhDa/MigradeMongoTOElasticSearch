@@ -11,5 +11,9 @@ package com.mycompany.migrationmongotoes.service.base;
  */
 public interface UserService {
     
-    public void createData(String userName);
+    public void insertUser(String userName);
+    
+    public void insertThreeMillionUser();
+    
+    public long getNumberUser();
 }

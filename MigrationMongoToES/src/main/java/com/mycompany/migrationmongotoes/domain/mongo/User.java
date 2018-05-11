@@ -15,6 +15,11 @@ public class User extends AbstractEntity{
    
     private String userName;
 
+    public User(String id, String userName) {
+        this.id = id;
+        this.userName = userName;
+    }
+    
     public User(String userName) {
         this.userName = userName;
     }

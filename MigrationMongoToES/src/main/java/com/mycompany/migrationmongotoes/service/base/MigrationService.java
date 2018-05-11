@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.migrationmongotoes.repo.es.base;
-
-import com.mycompany.migrationmongotoes.domain.mongo.User;
+package com.mycompany.migrationmongotoes.service.base;
 
 /**
  *
  * @author Vantu
  */
-public interface UserESRepo {
+public interface MigrationService {
     
-    public void insert(User user);
+    public void migradeSynchronize();
+    
+    public void migradeAsynchronize();
 }

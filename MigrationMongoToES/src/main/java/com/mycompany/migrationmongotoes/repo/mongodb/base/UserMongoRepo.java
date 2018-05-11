@@ -6,6 +6,8 @@
 package com.mycompany.migrationmongotoes.repo.mongodb.base;
 
 import com.mycompany.migrationmongotoes.domain.AbstractEntity;
+import com.mycompany.migrationmongotoes.domain.mongo.User;
+import java.util.List;
 
 /**
  *
@@ -14,5 +16,11 @@ import com.mycompany.migrationmongotoes.domain.AbstractEntity;
  */
 public interface UserMongoRepo<Entity extends AbstractEntity> {
     
-    public void insert(Entity entity, Class<Entity> typeClass);
+    public void insert(String userName);
+    
+    public List<User> getAll();
+    
+    public long getNumberUser();
+    
+    public void initToQueue();
 }

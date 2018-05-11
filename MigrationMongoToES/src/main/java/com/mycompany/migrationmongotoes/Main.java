@@ -5,6 +5,9 @@
  */
 package com.mycompany.migrationmongotoes;
 
+import com.mycompany.migrationmongotoes.service.base.MigrationService;
+import com.mycompany.migrationmongotoes.service.base.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +17,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Vantu
  */
 @SpringBootApplication
+@AllArgsConstructor
 public class Main implements CommandLineRunner{
+    
+    private final UserService userService;
+    private final MigrationService migrationService;
     
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
@@ -22,6 +29,9 @@ public class Main implements CommandLineRunner{
 
     @Override
     public void run(String... strings) throws Exception {
-        
+//        userService.insertThreeMillionUser();
+        System.out.println("start migrade");
+//        migrationService.migradeSynchronize();
+        migrationService.migradeAsynchronize();
     }
 }

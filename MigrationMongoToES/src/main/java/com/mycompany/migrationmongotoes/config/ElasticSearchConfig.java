@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.context.annotation.Bean;
 
@@ -29,23 +29,15 @@ public class ElasticSearchConfig {
     private int port;
     
     @Bean
-    private TransportClient getTransportClient() throws UnknownHostException {
+    public TransportClient getTransportClient() throws UnknownHostException {
         TransportClient client = null;
         try {
-            // un-command this, if you have multiple node
-//            TransportClient client1 = new PreBuiltTransportClient(Settings.EMPTY)
-//                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("host1"), 9300))
-//                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("host1"), 9300));
-
-//            Settings setting = Settings.builder()
-//                    .put("cluster.name", elasticPro.getProperty("cluster"))
-//                    .put("client.transport.sniff", true).build();
-
             client = new PreBuiltTransportClient(Settings.EMPTY)
-                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
-        } catch (UnknownHostException ex) {
-            ex.printStackTrace();
+                    .addTransportAddress(new TransportAddress(InetAddress.getByName(host), port));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return client;
     }
 }
