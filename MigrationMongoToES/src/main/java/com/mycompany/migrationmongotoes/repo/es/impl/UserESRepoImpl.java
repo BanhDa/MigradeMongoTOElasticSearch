@@ -32,9 +32,9 @@ public class UserESRepoImpl implements UserESRepo{
     public void insert(User user) {
         Map<String, Object> userMap = new HashMap<>();
         userMap.put(USER_NAME, user.getUserName());
-        long current = System.currentTimeMillis();
+//        long current = System.currentTimeMillis();
         client.prepareIndex().setIndex(INDEX).setType(TYPE).setId(user.getId()).setSource(userMap).execute().actionGet();
-        System.out.println("time inset: " + (System.currentTimeMillis() - current));
+//        System.out.println("time inset: " + (System.currentTimeMillis() - current));
     }
     
 }

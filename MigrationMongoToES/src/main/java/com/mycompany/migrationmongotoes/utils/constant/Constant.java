@@ -11,5 +11,5 @@ package com.mycompany.migrationmongotoes.utils.constant;
  */
 public class Constant {
     
-    public static final long THREE_MILLION_USER = 3000000L;
+    public static final long THREE_MILLION_USER = 3000L;
 }

@@ -37,8 +37,8 @@ public class MigrationServiceImpl implements MigrationService{
         System.out.println("start insert to ES");
         for (User user : users) {
             userESRepo.insert(user);
-            count++;
-            System.out.println("insert number user: " + count);
+//            count++;
+//            System.out.println("insert number user: " + count);
         }
         System.out.println("time insert user to ES: " + (System.currentTimeMillis() - currentTime));
     }

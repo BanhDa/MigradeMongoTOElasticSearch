@@ -13,7 +13,9 @@ public interface UserService {
     
     public void insertUser(String userName);
     
-    public void insertThreeMillionUser();
+    public void insertThreeMillionUserToMongoDB();
+    
+    public void insertThreeMillionUserToES();
     
     public long getNumberUser();
 }
