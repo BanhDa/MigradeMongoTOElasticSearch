@@ -36,9 +36,9 @@ public class Main implements CommandLineRunner{
         
         
 //        userService.insertThreeMillionUserToMongoDB();
-        userService.insertThreeMillionUserToES();
+//        userService.insertThreeMillionUserToES();
         System.out.println("start migrade");
 //        migrationService.migradeSynchronize();
-//        migrationService.migradeAsynchronize();
+        migrationService.migradeAsynchronize();
     }
 }

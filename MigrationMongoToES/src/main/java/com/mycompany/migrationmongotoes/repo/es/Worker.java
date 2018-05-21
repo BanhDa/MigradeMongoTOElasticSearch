@@ -21,12 +21,12 @@ public class Worker<Request extends DocWriteRequest> extends Thread{
     
     private final LinkedBlockingQueue<Request> queue = new LinkedBlockingQueue<>();
     
-    private long pollQueueDelayTime = 1000L;
-    private long bulkRequestDelayTime = 1000L;
+    private long pollQueueDelayTime = 100L;
+    private long bulkRequestDelayTime = 10L;
     private long lastTimeExecuteBulkRequest = System.currentTimeMillis();
     private BulkRequest bulkRequest = new BulkRequest();
     private final TransportClient transportClient;
-    private int maximumNumberOfBulkRequest = 5;
+    private int maximumNumberOfBulkRequest = 1000;
     
     public Worker(TransportClient client) {
         this.transportClient = client;
@@ -34,19 +34,28 @@ public class Worker<Request extends DocWriteRequest> extends Thread{
     
     @Override
     public void run() {
+        long currentTime = System.currentTimeMillis();
         while (true) {
             try {
                 Request request = queue.poll(pollQueueDelayTime, TimeUnit.MILLISECONDS);
                 if (request != null) {
                     bulkRequest.add(request);
                 }
-                if ( (System.currentTimeMillis() - lastTimeExecuteBulkRequest) >= bulkRequestDelayTime 
+                if (queue.isEmpty()) {
+                    System.out.println("time provess: " + (System.currentTimeMillis() - currentTime));
+                    currentTime = System.currentTimeMillis();
+                }
+                long duration = System.currentTimeMillis() - lastTimeExecuteBulkRequest;
+                if ( duration >= bulkRequestDelayTime 
                         || bulkRequest.numberOfActions() >= maximumNumberOfBulkRequest) {
                     if ( bulkRequest.numberOfActions() > 0 ) {
+                        System.out.println("estimatedSizeInBytes: " + bulkRequest.estimatedSizeInBytes());
+                        System.out.println("numberOfActions: " + bulkRequest.numberOfActions());
                         BulkResponse response = transportClient.bulk(bulkRequest).actionGet();
                         if (response.hasFailures()) {
                             System.out.println("UPDATE ELASTICSEARCH FAILED: " + response.buildFailureMessage());
                         }
+                        System.out.println("duration: " + duration);
                         bulkRequest = new BulkRequest();
                         lastTimeExecuteBulkRequest = System.currentTimeMillis();
                     }

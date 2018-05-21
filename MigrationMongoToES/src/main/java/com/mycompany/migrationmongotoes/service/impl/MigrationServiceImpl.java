@@ -48,7 +48,6 @@ public class MigrationServiceImpl implements MigrationService{
         System.out.println("migrade asynchronize ");
         long current = System.currentTimeMillis();
         
-        InsertUserESManager.start(userESRepo);
         GetUserManager.start(userMongoRepo);
         System.out.println("time done: " + (System.currentTimeMillis() - current));
         

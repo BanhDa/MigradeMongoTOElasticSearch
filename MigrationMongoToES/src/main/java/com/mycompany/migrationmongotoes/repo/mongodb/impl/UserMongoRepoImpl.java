@@ -11,13 +11,20 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mycompany.migrationmongotoes.domain.mongo.User;
+import com.mycompany.migrationmongotoes.repo.es.ManageESWorker;
 import com.mycompany.migrationmongotoes.repo.mongodb.AbstractMongoDB;
 import com.mycompany.migrationmongotoes.repo.mongodb.base.UserMongoRepo;
+import static com.mycompany.migrationmongotoes.service.impl.UserSerivceImpl.INDEX;
+import static com.mycompany.migrationmongotoes.service.impl.UserSerivceImpl.TYPE;
+import static com.mycompany.migrationmongotoes.service.impl.UserSerivceImpl.USER_NAME;
 import com.mycompany.migrationmongotoes.worker.container.UserContainer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
+import org.elasticsearch.action.index.IndexRequest;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -94,11 +101,12 @@ public class UserMongoRepoImpl extends AbstractMongoDB implements UserMongoRepo<
                 DBObject dBObject = cursor.next();
                 User user = castToObject(dBObject);
                 if (user != null) {
-                    UserContainer.getInstance().enQueue(user);
+                    Map<String, Object> map = new HashMap<>();
+                    map.put(USER_NAME, user.getUserName());
+                    IndexRequest request =  new IndexRequest(INDEX, TYPE, user.getId()).source(map);
+                    ManageESWorker.getInstance().push(request);
                 }
             }
-            User user = new User(null, null);
-            UserContainer.getInstance().enQueue(user);
         }
     }
 
